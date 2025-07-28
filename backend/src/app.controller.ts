@@ -2,7 +2,7 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { AccessTokenGuard } from './auth/guards/access-token.guard';
+import { AccessTokenGuard } from '@/auth/guards/access-token.guard';
 
 @Controller()
 export class AppController {
