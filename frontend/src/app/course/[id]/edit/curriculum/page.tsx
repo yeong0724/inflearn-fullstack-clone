@@ -13,8 +13,8 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <div className="space-y-8">
-      <Card>
+    <div className="space-y-8 flex flex-col items-center">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>
             <h1 className="text-2xl font-bold">커리큘럼</h1>

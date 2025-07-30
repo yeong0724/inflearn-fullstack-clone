@@ -3,17 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { Trash2, Lock, LockOpen, Plus, Edit } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Course,
-  Section,
-  Lecture,
-  CourseCategory,
-  LectureActivity,
-} from "@/generated/openapi-client";
+import { Course, Section, Lecture } from "@/generated/openapi-client";
 import {
   getCourseById,
   createSection,
@@ -25,9 +17,10 @@ import {
 } from "@/lib/api";
 import { notFound } from "next/navigation";
 import { toast } from "sonner";
-import type { EditCurriculumProps } from "@/types/components/course/curriculum/edit-curriculum";
-import LectureCreateDialog from "@/components/dialog/LectureCreateDialog";
 import { errorToast } from "@/lib/utils";
+import type { EditCurriculumProps } from "@/types/components/course/curriculum/edit-curriculum";
+import LectureCreateDialog from "@/components/dialog/lecture-create-dialog";
+import EditLectureDialog from "@/components/dialog/edit-lecture-dialog";
 
 export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
   const queryClient = useQueryClient();
@@ -45,12 +38,17 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
     {}
   );
 
+  // 강의 수정 Dialog 상태
+  const [editLecture, setEditLecture] = useState<Lecture | null>(null);
+  const [isEditLectureDialogOpen, setIsEditLectureDialogOpen] = useState(false);
+
   // 코스 데이터 조회
   const { data: course } = useQuery<Course>({
     queryKey: ["course", initialCourse.id],
     queryFn: async () => {
       // TODO: 실제 API 호출로 대체
       const { data } = await getCourseById(initialCourse.id);
+      console.log("course : ", data);
       if (!data) {
         notFound();
       }
@@ -223,7 +221,7 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
   return (
     <>
       {course.sections?.map((section: Section, sectionIdx: number) => (
-        <div key={section.id} className="border rounded-lg p-4 bg-white">
+        <div key={section.id} className="border rounded-lg p-4 bg-white w-full">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-semibold">
@@ -289,12 +287,12 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
                       <Lock className="text-gray-400" size={18} />
                     )}
                   </Button>
-                  {/* 수정 버튼 추가 */}
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => {
-                      /* TODO: 강의 수정 모달 오픈 */
+                      setEditLecture(lecture);
+                      setIsEditLectureDialogOpen(true);
                     }}
                     aria-label="강의 수정"
                   >
@@ -313,11 +311,12 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
               </div>
             ))}
           </div>
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 flex w-full justify-center gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => openLectureDialog(section.id)}
+              className="bg-gray-50"
             >
               <Plus size={16} className="mr-1" /> 수업 추가
             </Button>
@@ -325,7 +324,7 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
         </div>
       ))}
       {/* 섹션 추가 */}
-      <div className="border rounded-lg p-4 bg-gray-50">
+      {/* <div className="border rounded-lg p-4 bg-gray-50">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-green-600 font-semibold">섹션 추가</span>
           <Input
@@ -339,7 +338,15 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
             추가
           </Button>
         </div>
-      </div>
+      </div> */}
+      <Button
+        onClick={handleAddSection}
+        variant="default"
+        size="lg"
+        className="mx-auto text-md font-bold"
+      >
+        섹션 추가
+      </Button>
       <LectureCreateDialog
         lectureDialogOpen={lectureDialogOpen}
         setLectureDialogOpen={setLectureDialogOpen}
@@ -347,6 +354,17 @@ export default function EditCurriculum({ initialCourse }: EditCurriculumProps) {
         addLectureTitle={addLectureTitle}
         handleAddLecture={handleAddLecture}
       />
+      {/* 강의 수정 Dialog */}
+      {editLecture && (
+        <EditLectureDialog
+          isOpen={isEditLectureDialogOpen}
+          onClose={() => {
+            setIsEditLectureDialogOpen(false);
+            setEditLecture(null);
+          }}
+          lecture={editLecture}
+        />
+      )}
     </>
   );
 }
