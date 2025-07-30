@@ -17,20 +17,12 @@ import { FileVideo } from "lucide-react";
 import { uploadMedia, updateLecture } from "@/lib/api";
 import { toast } from "sonner";
 import { Lecture } from "@/generated/openapi-client";
-import _ from "lodash-es";
 import { errorToast } from "@/lib/utils";
-
-interface EditLectureDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lecture: Lecture;
-}
-
-interface EditLectureForm {
-  title: string;
-  description: string;
-  videoStorageInfo?: Lecture["videoStorageInfo"];
-}
+import type {
+  EditLectureDialogProps,
+  EditLectureForm,
+} from "@/types/components/dialog/edit-lecture-dialog-type";
+import _ from "lodash-es";
 
 const MAX_FILE_SIZE = 300 * 1024 * 1024; // 300MB
 const ACCEPTED_VIDEO_TYPES = {

@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import _ from "lodash-es";
 import { toast } from "sonner";
+import _ from "lodash-es";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

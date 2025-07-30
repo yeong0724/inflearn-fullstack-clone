@@ -9,11 +9,15 @@ export enum CourseStatus {
   DRAFT = "DRAFT",
 }
 
-export type FormValues = {
+export interface FormValues {
   title: string;
   shortDescription: string;
   price: string;
   discountPrice: string;
   level: CourseLevel;
   status: CourseStatus;
-};
+}
+
+export interface EditCourseHeaderProps {
+  title: string;
+}

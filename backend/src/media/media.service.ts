@@ -23,7 +23,7 @@ export class MediaService {
   }
 
   async uploadMedia(file: Express.Multer.File, userId: string) {
-    const originalname = (file?.originalname ?? '') as string;
+    const originalname = file?.originalname ?? '';
 
     const fileExtension = originalname.split('.').pop();
     const key = `media/${userId}/${uuid()}.${fileExtension}`;
