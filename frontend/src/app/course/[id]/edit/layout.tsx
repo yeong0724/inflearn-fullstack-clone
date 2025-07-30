@@ -11,15 +11,15 @@ export default async function EditCourseLayout({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const course = await getCourseById(id);
+  const { data: course, error } = await getCourseById(id);
 
-  if (course.error || !course.data) {
+  if (error || !course) {
     notFound();
   }
 
   return (
     <div className="w-full h-full bg-[#F1F3F5]">
-      <EditCourseHeader title={course.data?.title} />
+      <EditCourseHeader course={course} />
       <div className="p-12 flex gap-12 min-h-screen max-w-5xl">
         <EditCourseSidebar />
         <div className="flex-1">{children}</div>

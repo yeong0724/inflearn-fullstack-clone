@@ -1,3 +1,5 @@
+import { Course } from "@/generated/openapi-client";
+
 export enum CourseLevel {
   BEGINNER = "BEGINNER",
   INTERMEDIATE = "INTERMEDIATE",
@@ -19,5 +21,5 @@ export interface FormValues {
 }
 
 export interface EditCourseHeaderProps {
-  title: string;
+  course: Course;
 }

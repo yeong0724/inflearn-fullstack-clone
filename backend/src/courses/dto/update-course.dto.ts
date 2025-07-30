@@ -35,6 +35,11 @@ export class UpdateCourseDto extends PartialType(CreateCourseDto) {
   @IsOptional()
   discountPrice?: number;
 
+  @ApiProperty({ description: '코스 상태', required: false })
+  @IsString()
+  @IsOptional()
+  status?: string;
+
   @ApiProperty({ description: '코스 난이도', required: false })
   @IsString()
   @IsOptional()
