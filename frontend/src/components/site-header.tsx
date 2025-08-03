@@ -2,14 +2,19 @@
 
 import { Layers, Search } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
 import type { SiteHeaderProps } from "@/types/components/site-header-type";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 
-export default function SiteHeader({ categories }: SiteHeaderProps) {
+export default function SiteHeader({ profile, categories }: SiteHeaderProps) {
   const pathname = usePathname();
   const isSiteHeaderNeeded = !pathname.includes("/course/");
   const isCategoryNeeded = pathname == "/" || pathname.includes("/courses");
@@ -74,13 +79,40 @@ export default function SiteHeader({ categories }: SiteHeaderProps) {
           </Button>
         </Link>
         {/* Avatar */}
-        <Avatar className="ml-2">
-          <AvatarFallback>
-            <span role="img" aria-label="user">
-              👤
-            </span>
-          </AvatarFallback>
-        </Avatar>
+        {/* Avatar + Popover */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <div className="ml-2 cursor-pointer">
+              <Avatar>
+                {profile?.image ? (
+                  <Image
+                    src={profile.image}
+                    alt="avatar"
+                    className="w-full h-full object-cover rounded-full"
+                    width={1000}
+                    height={1000}
+                  />
+                ) : (
+                  <AvatarFallback>
+                    <span role="img" aria-label="user">
+                      👤
+                    </span>
+                  </AvatarFallback>
+                )}
+              </Avatar>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-56 p-0">
+            <button
+              className="w-full text-left px-4 py-3 hover:bg-gray-100 focus:outline-none"
+              onClick={() => (window.location.href = "/my/settings/account")}
+            >
+              <div className="font-semibold text-gray-800">
+                {profile?.name || profile?.email || "내 계정"}
+              </div>
+            </button>
+          </PopoverContent>
+        </Popover>
       </div>
       {/* 하단 카테고리 */}
       <div className="header-bottom bg-white px-8">

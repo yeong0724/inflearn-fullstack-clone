@@ -69,11 +69,6 @@ export default function EditCoverImage({ course }: EditCoverImageProps) {
       {/* 업로드 된 이미지 미리보기 */}
       {thumbnailUrl && (
         <div className="w-full h-auto min-h-[200px] relative rounded-lg overflow-hidden">
-          {/* <img
-            src={thumbnailUrl}
-            alt="커버 이미지"
-            className="w-full h-full object-cover"
-          /> */}
           <Image
             src={thumbnailUrl}
             alt="커버 이미지"
