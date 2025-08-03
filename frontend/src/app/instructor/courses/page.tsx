@@ -1,6 +1,12 @@
 export const dynamic = "force-dynamic";
 
+import type { Metadata } from "next";
 import CourseTable from "@/components/instructor/courses/course-table";
+
+export const metadata: Metadata = {
+  title: "강좌 관리 - 인프런",
+  description: "인프런 강좌 관리 페이지입니다.",
+};
 
 export default async function InstructorCoursesPage() {
   return (

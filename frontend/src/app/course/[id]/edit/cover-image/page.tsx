@@ -1,6 +1,12 @@
 import { notFound } from "next/navigation";
 import { getCourseById } from "@/lib/api";
 import EditCoverImage from "@/components/course/cover-image/edit-cover-image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "강좌 커버 이미지 편집 - 인프런",
+  description: "인프런 강좌 커버 이미지 편집 페이지입니다.",
+};
 
 export default async function Page({
   params,

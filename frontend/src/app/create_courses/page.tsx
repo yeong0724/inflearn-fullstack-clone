@@ -1,4 +1,10 @@
 import CreateCoursesForm from "@/components/create_courses/create_courses_form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "강좌 만들기 - 인프런",
+  description: "인프런 강좌 만들기 페이지입니다.",
+};
 
 export default function CreateCoursesPage() {
   return (

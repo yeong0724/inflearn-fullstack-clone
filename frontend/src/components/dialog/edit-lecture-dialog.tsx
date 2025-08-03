@@ -50,7 +50,7 @@ const EditLectureDialog = ({
     if (file) {
       const { data, error } = await uploadMedia(file);
       if (!data || error) {
-        toast.error(error as string);
+        errorToast(error);
         return;
       }
       setForm((prev) => ({
@@ -98,7 +98,7 @@ const EditLectureDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle>강의 수정</DialogTitle>
         </DialogHeader>

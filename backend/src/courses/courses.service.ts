@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import slugfy from 'slug';
+import slugify from '@/lib/slugify';
 import { Course, Prisma } from '@prisma/client';
 import { CreateCourseDto } from '@/courses/dto/create-course.dto';
 import { UpdateCourseDto } from '@/courses/dto/update-course.dto';
@@ -17,8 +17,7 @@ export class CoursesService {
     userId: string,
     createCourseDto: CreateCourseDto,
   ): Promise<Course> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const slug: string = slugfy(createCourseDto.title) as string;
+    const slug: string = slugify(createCourseDto.title);
 
     return this.prisma.course.create({
       data: {
